@@ -3,17 +3,6 @@ import { NextResponse } from "next/server";
 import { authentication } from "next-firebase-auth-edge/lib/next/middleware";
 import { serverConfig, tokenConfig } from "./config/server-config";
 
-function redirectToLogin(request: NextRequest) {
-  if (request.nextUrl.pathname === "/login") {
-    return NextResponse.next();
-  }
-
-  const url = request.nextUrl.clone();
-  url.pathname = "/login";
-  url.search = `redirect=${request.nextUrl.pathname}${url.search}`;
-  return NextResponse.redirect(url);
-}
-
 const commonOptions = {
   ...tokenConfig,
   cookieSerializeOptions: {
@@ -57,6 +46,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  //note the empty || below, this excludes home from the auth middleware
   matcher: ["/", "/((?!_next/static|favicon.ico|logo.svg).*)"],
 };
